@@ -37,6 +37,7 @@ pyenv activate stt
 ```
 
 ```bash
+pip install jiwer #for error recognition
 pip install faster-whisper
 ```
 
