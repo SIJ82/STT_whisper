@@ -1,3 +1,14 @@
+```bash
+```
+
+```bash
+git clone https://github.com/SIJ82/STT_whisper.git
+```
+
+```bash
+pyenv version
+```
+
 
 pyenv version
 
