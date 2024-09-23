@@ -12,9 +12,9 @@ print("wer", error)
 
 #model_size = "/models/faster-whisper-tiny/"
 #model_size = "/models/faster-whisper-base/"
-#model_size = "/models/faster-whisper-small/"
+model_size = "/models/faster-whisper-small/"
 #model_size = "/models/faster-whisper-medium/"
-model_size = "/models/faster-whisper-large-v3/"
+#model_size = "/models/faster-whisper-large-v3/"
 
 print("Loading model")
 model = WhisperModel(model_size, device="cpu", compute_type="int8")
