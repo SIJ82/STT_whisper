@@ -1,6 +1,7 @@
 from faster_whisper import WhisperModel
 import time
 import csv
+import pandas as pd
 from jiwer import wer, wil, wip, mer
 import jiwer
 
@@ -10,7 +11,10 @@ base_path = "/models/faster-whisper-"
 models = ["tiny", "base", "small", "medium", "large-v3"]
 #models = ["tiny", "base", "small"]
 
-audios = ["audio.mp3", "audio2.mp3"]
+dataset_path = "/models/it/"
+dataset = pd.read_csv(dataset_path+"validated.tsv", sep="\t")
+dataset=dataset.drop(columns=["client_id", "sentence_id", "sentence_domain", "up_votes", "down_votes", "age", "gender", "accents", "variant", "locale", "segment"])
+
 
 transforms = jiwer.Compose(
     [
