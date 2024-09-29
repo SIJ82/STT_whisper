@@ -8,13 +8,13 @@ import jiwer
 base_path = "/models/faster-whisper-" 
 #base_path = ""   #leave blank to download the models directly
 
-models = ["tiny", "base", "small", "medium", "large-v3"]
-#models = ["tiny", "base", "small"]
+#models = ["tiny", "base", "small", "medium", "large-v3"]
+models = ["tiny", "base", "small"]
 
 dataset_path = "/models/it/"
 dataset = pd.read_csv(dataset_path+"validated.tsv", sep="\t")
 dataset=dataset.drop(columns=["client_id", "sentence_id", "sentence_domain", "up_votes", "down_votes", "age", "gender", "accents", "variant", "locale", "segment"])
-dataset = dataset.head(10)
+dataset = dataset.head(100)
 
 transforms = jiwer.Compose(
     [
@@ -51,11 +51,14 @@ def transcribe(model:WhisperModel, audio_path:str):
     data["duration_after_vad"] = info.duration_after_vad
     data["time"] = end
 
+    del segments
+    del info
+    
     return (data, text)
 
 
 
-with open('./data/results.csv', 'w', newline='') as csvfile:
+with open('./data/Core4-Ram2048.csv', 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, 
         fieldnames=["model","audio", "duration", "duration_after_vad", "time", "wer", "wil", "wip", "mer"])
     writer.writeheader()
@@ -69,15 +72,15 @@ with open('./data/results.csv', 'w', newline='') as csvfile:
             data={}
             for i in range(len(dataset)):
                 try:
-                    print(f"Audio {i}/{len(dataset)}- {dataset.iloc[i]["path"]}")
+                    print(f"Audio {i+1}/{len(dataset)}- {dataset.iloc[i]["path"]}")
                     (data,text) = transcribe(model, dataset.iloc[i]["path"])
                 except:
-                    print(f"Audion n.{i} failed")
+                    print(f"Audion n.{i+1} failed")
                 
                 data = errors(data, text,  dataset.iloc[i]["sentence"])
                 data["model"] = m
                 writer.writerow(data)
-
+            del model
         except:
             pass
     
