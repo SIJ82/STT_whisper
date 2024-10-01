@@ -14,7 +14,7 @@ models = ["tiny", "base", "small"]
 dataset_path = "/models/it/"
 dataset = pd.read_csv(dataset_path+"validated.tsv", sep="\t")
 dataset=dataset.drop(columns=["client_id", "sentence_id", "sentence_domain", "up_votes", "down_votes", "age", "gender", "accents", "variant", "locale", "segment"])
-dataset = dataset.head(100)
+dataset = dataset.head(10)
 
 transforms = jiwer.Compose(
     [
@@ -36,11 +36,12 @@ def errors(data:dict,text:str,  ref:str):
 
 def transcribe(model:WhisperModel, audio_path:str):
     data={"model":"m"}
-    start = time.time()
     #print("starting transcription...", dataset_path+"clips/"+audio_path)
 
     segments, info = model.transcribe(dataset_path+"clips/"+audio_path, beam_size=5, language="it", vad_filter=True, without_timestamps=True)
     text: str = ""
+
+    start = time.time()
     for segment in segments:
         text+=segment.text
 
@@ -58,7 +59,7 @@ def transcribe(model:WhisperModel, audio_path:str):
 
 
 
-with open('./data/Core4-Ram2048.csv', 'w', newline='') as csvfile:
+with open('./data/i7_test.csv', 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, 
         fieldnames=["model","audio", "duration", "duration_after_vad", "time", "wer", "wil", "wip", "mer"])
     writer.writeheader()

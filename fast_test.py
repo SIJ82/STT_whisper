@@ -23,13 +23,13 @@ print("Model loaded", model_size)
 initial_prompt="Ora diamo dei comandi ad Alexa per il volume"
 
 
-start = time.time()
+print("starting transcribe...")
 segments, info = model.transcribe("audio2.mp3", beam_size=5, language="it", initial_prompt=initial_prompt)
-
+print("transcribe started...")
 
 print("Detected language '%s' with probability %f" % (info.language, info.language_probability))
 
-print("starting transcibe")
+start = time.time()
 for segment in segments:
     print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
 print("End of transcribe :", time.time()-start, "seconds")
