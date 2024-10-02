@@ -14,7 +14,7 @@ models = ["tiny", "base", "small"]
 dataset_path = "/models/it/"
 dataset = pd.read_csv(dataset_path+"validated.tsv", sep="\t")
 dataset=dataset.drop(columns=["client_id", "sentence_id", "sentence_domain", "up_votes", "down_votes", "age", "gender", "accents", "variant", "locale", "segment"])
-dataset = dataset.head(10)
+dataset = dataset.head(100)
 
 transforms = jiwer.Compose(
     [
@@ -59,7 +59,7 @@ def transcribe(model:WhisperModel, audio_path:str):
 
 
 
-with open('./data/i7_test.csv', 'w', newline='') as csvfile:
+with open('./data/i7-medt.csv', 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, 
         fieldnames=["model","audio", "duration", "duration_after_vad", "time", "wer", "wil", "wip", "mer"])
     writer.writeheader()
